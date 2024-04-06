@@ -15,7 +15,7 @@ public class BrowseController {
 
     @GetMapping("/greeting")
     public String greeting(
-            @RequestParam(name="name", required=false, defaultValue="World") String name,
+            @RequestParam(name = "name", required = false, defaultValue = "World") String name,
             Map<String, Object> model
     ) {
         model.put("name", name);
@@ -50,6 +50,21 @@ public class BrowseController {
 
         if (filter != null && !filter.isEmpty()) {
             messages = messageRepos.findByTag(filter);
+        } else {
+            messages = messageRepos.findAll();
+        }
+
+        model.put("messagesOfmain", messages);
+
+        return "main";
+    }
+
+    @PostMapping("textfind")
+    public String complete_filter(@RequestParam String texxxtfind, Map<String, Object> model) {
+        Iterable<Message> messages;
+
+        if (texxxtfind != null && !texxxtfind.isEmpty()) {
+            messages = messageRepos.findMessageByText(texxxtfind);
         } else {
             messages = messageRepos.findAll();
         }
